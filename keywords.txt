@@ -1,0 +1,23 @@
+#######################################
+# Syntax Coloring Map 
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DFRobot_MatrixLidar_I2C KEYWORD1
+DFRobot_MatrixLidar_UART	KEYWORD1
+
+#######################################
+# Methods and Functions  (KEYWORD2)
+#######################################
+begin	KEYWORD2
+setRangingMode	KEYWORD2
+getAllData	KEYWORD2
+getFixedPointData	KEYWORD2
+#######################################
+# Constants   (LITERAL1)
+#######################################
+eMatrix_4x4	LITERAL1
+eMatrix_8X8	LITERAL1
