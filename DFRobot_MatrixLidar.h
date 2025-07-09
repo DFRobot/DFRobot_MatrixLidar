@@ -55,7 +55,6 @@ public:
    */
   uint8_t setRangingMode(eMatrix_t matrix);
 
-
   /**
    * @fn getAllData
    * @brief Retrieves all data

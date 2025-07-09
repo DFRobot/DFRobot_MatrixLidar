@@ -157,7 +157,6 @@ uint16_t DFRobot_MatrixLidar::getFixedPointData(uint8_t x, uint8_t y){
   return 1;
 }
 
-
 void DFRobot_MatrixLidar_I2C::sendPacket(void *pkt, int length, bool stop){
   uint8_t *pBuf = (uint8_t *)pkt;
   int remain = length;
@@ -177,7 +176,6 @@ void DFRobot_MatrixLidar_I2C::sendPacket(void *pkt, int length, bool stop){
   }
   _pWire->endTransmission();
 }
-
 
 void* DFRobot_MatrixLidar::recvPacket(uint8_t cmd, uint8_t *errorCode){
   if(cmd > CMD_END){
@@ -268,7 +266,6 @@ int DFRobot_MatrixLidar_I2C::recvData(void *data, int len){
 }
 
 
-
 DFRobot_MatrixLidar_I2C::DFRobot_MatrixLidar_I2C(uint8_t addr, TwoWire *pWire)
 :DFRobot_MatrixLidar(),_pWire(pWire),_addr(addr)
 {
@@ -304,7 +301,6 @@ void DFRobot_MatrixLidar_UART::sendPacket(void *pkt, int length, bool stop){
   }
    
 }
-
 
 int DFRobot_MatrixLidar_UART::recvData(void *data, int len)
 {
