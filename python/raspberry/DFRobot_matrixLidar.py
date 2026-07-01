@@ -244,16 +244,15 @@ class DFRobot_matrixLidar_i2c(DFRobot_matrixLidar):
 				pass
 
 class DFRobot_matrixLidar_uart(DFRobot_matrixLidar):
-  def __init__(self):
+  def __init__(self, port="/dev/ttyAMA0", baud=115200):
     '''!
-      @brief DFRobot_SCI_IIC Constructor
-      @param addr:  7-bit IIC address, support the following address settings
-      @n RP2040_SCI_ADDR_0X21      0x21 default I2C address
-      @n RP2040_SCI_ADDR_0X22      0x22
-      @n RP2040_SCI_ADDR_0X23      0x23
+      @brief DFRobot_matrixLidar_uart Constructor
+      @param port: serial device the sensor is wired to. On a Raspberry Pi the
+      @n      GPIO UART is usually "/dev/serial0"; "/dev/ttyAMA0" is the PL011.
+      @param baud: serial baud rate (sensor default 115200)
     '''
-    self.ser = serial.Serial("/dev/ttyAMA0", 115200, timeout=1)
-    if self.ser.isOpen == False:
+    self.ser = serial.Serial(port, baud, timeout=1)
+    if not self.ser.is_open:
       self.ser.open()
     DFRobot_matrixLidar.__init__(self)
 	
@@ -263,8 +262,9 @@ class DFRobot_matrixLidar_uart(DFRobot_matrixLidar):
       @param pkt List of data to be sent
       @return None
     '''
-    self.ser.write(b'\x55')
-    self.ser.write(pkt)
+    # pkt is a list of ints; pyserial needs a bytes-like object on Python 3.
+    # The previous `self.ser.write(pkt)` passed a list and raised TypeError.
+    self.ser.write(b'\x55' + bytes(bytearray(pkt)))
     
   def _recv_data(self, length):
     '''!
@@ -274,6 +274,8 @@ class DFRobot_matrixLidar_uart(DFRobot_matrixLidar):
     '''
     try:
         raw_data = self.ser.read(length)
-        return [ord(byte) for byte in raw_data]
+        # On Python 3 iterating `bytes` already yields ints; the previous
+        # `ord(byte)` raised TypeError, so every read silently returned zeros.
+        return list(bytearray(raw_data))
     except Exception as e:
         return [0] * length
