@@ -250,11 +250,11 @@ int DFRobot_MatrixLidar_I2C::recvData(void *data, int len){
     len = remain > I2C_ACHE_MAX_LEN ? I2C_ACHE_MAX_LEN : remain;
     remain -= len;
 #if defined(ESP32)
-    if(remain) {_pWire->requestFrom(_addr, len, true);}
+    if(remain) {_pWire->requestFrom(_addr, (uint8_t)len, (uint8_t)true);}
 #else
-    if(remain){ _pWire->requestFrom(_addr, len, false);}
+    if(remain){ _pWire->requestFrom(_addr, (uint8_t)len, (uint8_t)false);}
 #endif
-  else{_pWire->requestFrom(_addr, len, true);}
+  else{_pWire->requestFrom(_addr, (uint8_t)len, (uint8_t)true);}
     for(int i = 0; i < len; i++){
       pBuf[i] = _pWire->read();
       yield();
